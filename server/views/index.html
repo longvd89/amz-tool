@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+<h1>Hello World!</h1>
+<div id="future"></div>
+<form id="form" id="chat_form">
+    <input id="chat_input" type="text">
+    <input type="submit" value="Send">
+</form>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/socket.io.js"></script>
+<script>
+    let socket = io.connect('http://localhost:3001');
+    socket.on('connect', function(data) {
+        socket.emit('join', 'Hello World from client');
+    });
+
+    socket.on('CRAWL_DATA', function(data) {
+        console.info(data);
+        // get data done
+
+        socket.emit('CRAWL_DATA_RESULT', {data: 'success get data'})
+    });
+
+    socket.on('broad', function(data) {
+        $('#future').append(data+ "<br/>");
+    });
+
+    socket.on('roomJoined', function (data) {
+        console.info('bạn join thành congp: ', data);
+    })
+
+    $('form').submit(function(e){
+        e.preventDefault();
+        let message = $('#chat_input').val();
+        socket.emit('messages', message);
+
+        socket.emit('JOIN_ROOM', {roomId :'ROOM_AMZ_CRAWL_ORDER', userId: 'WEB_CLIENT'});
+    });
+</script>
+</body>
+</html>
