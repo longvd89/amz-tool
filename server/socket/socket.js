@@ -2,12 +2,16 @@
  * Created by vulong on 06/03/2020.
  */
 
-let {event} = require('../../common/constrant');
+// let {event} = require('../../common/constrant');
 
 module.exports = function (http, sessionParser) {
 
     let sharedSession = require("express-socket.io-session");
     let socket = require('socket.io')(http);
+
+    let event = {
+        JOIN_ROOM : 'JOIN_ROOM'
+    }
 
     socket.use(sharedSession(sessionParser));
 
