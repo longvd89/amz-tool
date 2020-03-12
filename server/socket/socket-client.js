@@ -2,7 +2,7 @@
  * Created by vulong on 05/03/2020.
  */
 let schedule = require('node-schedule');
-let socketAddress = 'http://localhost:3001';
+let socketAddress = 'https://amz-tooly.herokuapp.com/';
 let {socket_definer, event} =  require('../../common/constrant');
 let clientSocket = require('socket.io-client')(socketAddress);
 
