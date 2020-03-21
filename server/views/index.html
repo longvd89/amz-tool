@@ -1,45 +1,102 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 
 </head>
+
 <body>
-<h1>Hello World!</h1>
-<div id="future"></div>
-<form id="form" id="chat_form">
-    <input id="chat_input" type="text">
-    <input type="submit" value="Send">
-</form>
-<script src="/js/jquery-3.4.1.min.js"></script>
-<script src="/js/socket.io.js"></script>
-<script>
-    let socket = io.connect('https://amz-tooly.herokuapp.com/');
-    socket.on('connect', function(data) {
-        socket.emit('join', 'Hello World from client');
-    });
+    <h1>Hello World!</h1>
+    <div id="future"></div>
+    <form id="form" id="chat_form">
+        <input id="chat_input" type="text">
+        <input type="submit" value="Send">
+    </form>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script>
+        let socket = io.connect('https://amz-tooly.herokuapp.com/');
+        socket.on('connect', function (data) {
+            socket.emit('join', 'Hello World from client');
+        });
 
-    socket.on('CRAWL_DATA', function(data) {
-        console.info(data);
-        // get data done
+        // get data reference
 
-        socket.emit('CRAWL_DATA_RESULT', {data: 'success get data'})
-    });
+        let URL_UNSHIPPED_ODERS = 'https://sellercentral.amazon.com/order-reports-and-feeds/api/reportRequest';
+        let URL_GET_ORDERS = 'https://sellercentral.amazon.com/order-reports-and-feeds/api/documentMetadata?referenceId='
 
-    socket.on('broad', function(data) {
-        $('#future').append(data+ "<br/>");
-    });
+        function getUnshippedOders() {
 
-    socket.on('roomJoined', function (data) {
-        console.info('bạn join thành congp: ', data);
-    })
+            $.ajax({
+                url: 'https://sellercentral.amazon.com/order-reports-and-feeds/api/reportRequest',
+                dataType: 'json',
+                type: 'post',
+                async: true,
+                contentType: 'application/json',
+                data: JSON.stringify({ 
+                    "type": "unshippedOrdersReport", 
+                    "numDays": "1", 
+                    "numMonth": "0", 
+                    "numYear": "2015", 
+                    "reportVersion": "new", 
+                    "includeSalesChannel": true }),
+                success: function (data, textStatus, jQxhr) {
+                    console.info('DATA success: ', data);
+                    let reportRequestId = data.referenceId;
 
-    $('form').submit(function(e){
-        e.preventDefault();
-        let message = $('#chat_input').val();
-        socket.emit('messages', message);
+                    console.info('ID: ', reportRequestId);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
 
-        socket.emit('JOIN_ROOM', {roomId :'ROOM_AMZ_CRAWL_ORDER', userId: 'WEB_CLIENT'});
-    });
-</script>
+        }
+
+        function getReportDatas (reportRequestId) {
+
+            let url = URL_GET_ORDERS + reportRequestId;
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'get',
+                async: true,
+                contentType: 'application/json',
+                success: function (data, textStatus, jQxhr) {
+                    console.info('DATA success: ', data);
+                    
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        
+        }
+
+        socket.on('CRAWL_DATA', function (data) {
+            console.info(data);
+            // get data done
+
+            socket.emit('CRAWL_DATA_RESULT', { data: 'success get data' })
+        });
+
+        socket.on('broad', function (data) {
+            $('#future').append(data + "<br/>");
+        });
+
+        socket.on('roomJoined', function (data) {
+            console.info('bạn join thành congp: ', data);
+        })
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            let message = $('#chat_input').val();
+            socket.emit('messages', message);
+
+            socket.emit('JOIN_ROOM', { roomId: 'ROOM_AMZ_CRAWL_ORDER', userId: 'WEB_CLIENT' });
+        });
+    </script>
 </body>
+
 </html>
