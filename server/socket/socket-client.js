@@ -18,14 +18,14 @@ clientSocket.on('broad', function(data) {
 clientSocket.emit(event.JOIN_ROOM, {roomId : socket_definer.ROOM_ID, userId: data.userId});
 
 
-clientSocket.on('roomJoined', function (data) {
-    console.info('bạn join thành congp: ', data);
+clientSocket.on(event.JOINED_SUCCESS, function (data) {
+    console.info('You join success: ', data);
 });
 
 
 
-let job = schedule.scheduleJob('50 * * * * *', function(){
-    console.log('The answer to life, the universe, and everything!');
+let job = schedule.scheduleJob('0 56 10 * * *', function(){
+    console.log('Emit get oder!');
     clientSocket.emit('GET_DATA_ORDER', data);
 });
 

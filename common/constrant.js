@@ -7,7 +7,8 @@ let socket_definer = {
 };
 
 let event = {
-    JOIN_ROOM : 'JOIN_ROOM'
+    JOIN_ROOM : 'JOIN_ROOM',
+    JOINED_SUCCESS : 'JOINED_SUCCESS'
 };
 
 
