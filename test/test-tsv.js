@@ -5,19 +5,36 @@
 let d3Tsv = require('d3-dsv');
 const fs = require('fs');
 
+let { getInfoCustomized } = require('../server/utils/get-info-custom');
 
-try {
-    let data = fs.readFileSync(__dirname + '/test-2.txt', 'utf8');
-    // console.log(data.toString());
-    let text = data.toString();
-    let tsvData = d3Tsv.tsvParse(text);
+async function testData() {
 
-    console.info(tsvData)
-	
-	fs.writeFileSync('file.json', JSON.stringify(tsvData, null,2));
-} catch(e) {
-    console.log('Error:', e.stack);
+    try {
+        let data = fs.readFileSync(__dirname + '/20254309451018373.txt', 'utf8');
+        // console.log(data.toString());
+        let textOrder = data.toString();
+        let orders = d3Tsv.tsvParse(textOrder);
+
+        let results = [];
+
+        for (const itemOrder of orders) {
+
+            let orderNew = await getInfoCustomized(itemOrder);
+            results.push(orderNew)
+        }
+
+
+        fs.writeFileSync('file.json', JSON.stringify(results, null,2));
+    } catch(e) {
+        console.log('Error:', e.stack);
+    }
+
 }
+
+testData();
+
+
+
 
 
 
