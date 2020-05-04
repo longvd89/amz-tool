@@ -203,4 +203,50 @@
     "name": "Wyoming",
     "code": "WY"
   }
+,
+  {
+    "name": "APO AA",
+    "code": "AA"
+  }
+,
+  {
+    "name": "APO AP",
+    "code": "AP"
+  }
+,
+  {
+    "name": "APO AE",
+    "code": "AE"
+  }
+,
+  {
+    "name": "American Samoa",
+    "code": "AS"
+  }
+,
+  {
+    "name": "Guam",
+    "code": "GU"
+  }
+,
+  {
+    "name": "Northern Mariana Islands",
+    "code": "MP"
+  }
+,
+  {
+    "name": "Virgin Islands",
+    "code": "VI"
+  }
+,
+  {
+    "name": "Palau",
+    "code": "PW"
+  }
+,
+  {
+    "name": "Puerto Rico",
+    "code": "PR"
+  }
+
 ]
