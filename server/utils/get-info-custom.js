@@ -103,7 +103,7 @@ async function getInfoCustomized(order) {
     for (const item of infoCustoms) {
 
         if (item.label === 'Please Select Size')
-            order.orderSize = item.optionSelection.label.replace(/Size /, '')
+            order.orderSize = item.optionSelection.label.replace(/Size /, '');
 
         if (item.label === 'Please Select Color')
             order.orderColor = item.optionSelection.label;
